@@ -40,13 +40,24 @@ fn print_hangman(mistakes: i32) {
     println!("|There is a hangman|")
 }
 
-// TODO: add validation & `panic!` doesn't look correct
 fn get_user_guess() -> String {
-    let mut input = String::new();
+    loop {
+        let mut input = String::new();
 
-    match io::stdin().read_line(&mut input) {
-        Ok(_) => input.trim_end().to_string(),
-        Err(error) => panic!("Failed to read input: {error}"),
+        match io::stdin().read_line(&mut input) {
+            Ok(_) => {
+                let trimmed_input = input.trim_end();
+
+                if trimmed_input.len() == 1 {
+                    return trimmed_input.to_string();
+                } else {
+                    println!("Please enter exactly one letter");
+                }
+            }
+            Err(error) => {
+                eprintln!("Failed to read input: {error}")
+            }
+        }
     }
 }
 
