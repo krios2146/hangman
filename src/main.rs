@@ -18,6 +18,15 @@ fn main() {
         } else {
             mistakes_counter += 1;
         }
+
+        if mistakes_counter == 5 {
+            println!("You lost");
+            break;
+        }
+        if !word_mask.contains("*") {
+            println!("You win");
+            break;
+        }
     }
 }
 
