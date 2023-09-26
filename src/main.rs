@@ -36,7 +36,7 @@ fn get_user_guess() -> String {
     let mut input = String::new();
 
     match io::stdin().read_line(&mut input) {
-        Ok(_) => input,
+        Ok(_) => input.trim_end().to_string(),
         Err(error) => panic!("Failed to read input: {error}"),
     }
 }
