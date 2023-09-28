@@ -11,15 +11,8 @@ fn main() {
     let mut mistakes_counter = 0;
     loop {
         print_hangman(mistakes_counter);
-        println!("{word_mask}");
-
-        let guess = get_user_guess();
-
-        if word.contains(&guess) {
-            word_mask = update_word_mask(&word, &word_mask, &guess);
-        } else {
-            mistakes_counter += 1;
-        }
+        println!("Word:     {word_mask}");
+        println!("Mistakes: {mistakes_counter}");
 
         if mistakes_counter == MAX_MISTAKES {
             println!("You lost");
@@ -28,6 +21,14 @@ fn main() {
         if !word_mask.contains("*") {
             println!("You win");
             break;
+        }
+
+        let guess = get_user_guess();
+
+        if word.contains(&guess) {
+            word_mask = update_word_mask(&word, &word_mask, &guess);
+        } else {
+            mistakes_counter += 1;
         }
     }
 }
