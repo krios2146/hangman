@@ -1,9 +1,11 @@
 use std::io;
 
 fn main() {
-    let word = choose_word_for_game();
+    const MAX_MISTAKES: i32 = 5;
 
+    let word = choose_word_for_game();
     let word_size = word.chars().count();
+
     let mut word_mask = "*".repeat(word_size);
 
     let mut mistakes_counter = 0;
@@ -19,7 +21,7 @@ fn main() {
             mistakes_counter += 1;
         }
 
-        if mistakes_counter == 5 {
+        if mistakes_counter == MAX_MISTAKES {
             println!("You lost");
             break;
         }
