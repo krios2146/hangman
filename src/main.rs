@@ -1,7 +1,7 @@
 use std::io;
 
 fn main() {
-    const MAX_MISTAKES: i32 = 5;
+    const MAX_MISTAKES: i32 = 6;
 
     let word = choose_word_for_game();
     let word_size = word.chars().count();
