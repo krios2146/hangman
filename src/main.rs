@@ -37,9 +37,55 @@ fn choose_word_for_game() -> String {
     "world".to_string()
 }
 
-// TODO: should print ASCII hangman
 fn print_hangman(mistakes: i32) {
-    println!("|There is a hangman|")
+    let padding = "         ";
+    // top
+    println!("{}----------", padding);
+    println!("{}|        |", padding);
+
+    // hangman
+    match mistakes {
+        0 => {
+            println!("{}|        ", padding);
+            println!("{}|        ", padding);
+            println!("{}|        ", padding);
+        }
+        1 => {
+            println!("{}|        O", padding);
+            println!("{}|        ", padding);
+            println!("{}|        ", padding);
+        }
+        2 => {
+            println!("{}|        O", padding);
+            println!("{}|        |", padding);
+            println!("{}|        ", padding);
+        }
+        3 => {
+            println!("{}|        O", padding);
+            println!("{}|       -|", padding);
+            println!("{}|        ", padding);
+        }
+        4 => {
+            println!("{}|        O", padding);
+            println!("{}|       -|-", padding);
+            println!("{}|        ", padding);
+        }
+        5 => {
+            println!("{}|        O", padding);
+            println!("{}|       -|-", padding);
+            println!("{}|       / ", padding);
+        }
+        _ => {
+            println!("{}|        O", padding);
+            println!("{}|       -|-", padding);
+            println!("{}|       / \\", padding);
+        }
+    }
+
+    // bot
+    println!("{}|         ", padding);
+    println!("{}----------", padding);
+    println!("( ﾉ ﾟｰﾟ)ﾉ  {} ＼(ﾟｰﾟ＼))", padding);
 }
 
 fn get_user_guess() -> String {
