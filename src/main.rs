@@ -15,15 +15,16 @@ fn main() {
     let mut mistakes_counter = 0;
     loop {
         print_hangman(mistakes_counter);
-        println!("Word:     {word_mask}");
-        println!("Mistakes: {mistakes_counter}");
+        println!("Word:     {word_mask} ({word_size} letters)");
+        println!("Mistakes: {mistakes_counter}/{MAX_MISTAKES}");
 
         if mistakes_counter == MAX_MISTAKES {
-            println!("You lost. The word was: {word}");
+            println!("You lost ಠ_ಠ");
+            println!("The word was: {word}");
             break;
         }
         if !word_mask.contains("*") {
-            println!("You win");
+            println!("You win (⌐■_■)");
             break;
         }
 
