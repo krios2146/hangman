@@ -19,7 +19,7 @@ fn main() {
         println!("Mistakes: {mistakes_counter}");
 
         if mistakes_counter == MAX_MISTAKES {
-            println!("You lost");
+            println!("You lost. The word was: {word}");
             break;
         }
         if !word_mask.contains("*") {
@@ -117,7 +117,7 @@ fn get_user_guess() -> String {
                 if trimmed_input.len() == 1 {
                     return trimmed_input.to_string();
                 } else {
-                    println!("Please enter exactly one letter");
+                    println!("Please enter exactly one latin letter");
                 }
             }
             Err(error) => {
