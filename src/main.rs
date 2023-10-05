@@ -116,7 +116,7 @@ fn get_user_guess(allowed_nums: &Vec<i32>) -> String {
             Ok(_) => {
                 let input = input.trim_end();
 
-                if input.len() != 1 {
+                if input.chars().filter(|x| x.is_ascii_alphanumeric()).count() != 1 {
                     println!("Please enter exactly one latin letter or control number");
                     continue;
                 }
