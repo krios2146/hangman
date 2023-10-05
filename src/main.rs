@@ -1,40 +1,64 @@
 use std::fs::File;
 use std::io;
 use std::io::BufRead;
+use std::process::exit;
 
 use rand::Rng;
 
 fn main() {
-    const MAX_MISTAKES: i32 = 6;
-    let control_flow_nums = vec![0, 1];
-
-    let word = choose_word_for_game();
-    let word_size = word.chars().count();
-
-    let mut word_mask = "*".repeat(word_size);
-
-    let mut mistakes_counter = 0;
     loop {
-        print_hangman(mistakes_counter);
-        println!("Word:     {word_mask} ({word_size} letters)");
-        println!("Mistakes: {mistakes_counter}/{MAX_MISTAKES}");
+        const MAX_MISTAKES: i32 = 6;
+        const EXIT_NUMBER: i32 = 0;
+        const RESTART_NUMBER: i32 = 1;
 
-        if mistakes_counter == MAX_MISTAKES {
-            println!("You lost ಠ_ಠ");
-            println!("The word was: {word}");
-            break;
-        }
-        if !word_mask.contains("*") {
-            println!("You win (⌐■_■)");
-            break;
-        }
+        let control_flow_nums = vec![EXIT_NUMBER, RESTART_NUMBER];
 
-        let guess = get_user_guess(&control_flow_nums);
+        let word = choose_word_for_game();
+        let word_size = word.chars().count();
 
-        if word.contains(&guess) {
-            word_mask = update_word_mask(&word, &word_mask, &guess);
-        } else {
-            mistakes_counter += 1;
+        let mut word_mask = "*".repeat(word_size);
+
+        println!();
+        println!("The game begins");
+        println!();
+
+        let mut mistakes_counter = 0;
+        loop {
+            print_hangman(mistakes_counter);
+            println!("Word:     {word_mask} ({word_size} letters)");
+            println!("Mistakes: {mistakes_counter}/{MAX_MISTAKES}");
+            println!("{EXIT_NUMBER} - Exit, {RESTART_NUMBER} - Restart");
+
+            if mistakes_counter == MAX_MISTAKES {
+                println!("You lost ಠ_ಠ");
+                println!("The word was: {word}");
+                break;
+            }
+            if !word_mask.contains("*") {
+                println!("You win (⌐■_■)");
+                break;
+            }
+
+            let guess = get_user_guess(&control_flow_nums);
+
+            match guess.parse::<i32>() {
+                Ok(EXIT_NUMBER) => {
+                    println!("Finishing the game");
+                    exit(0);
+                }
+                Ok(RESTART_NUMBER) => {
+                    println!("Restarting the game");
+                    break;
+                }
+                Ok(_) => println!("Something went wrong"),
+                Err(_) => println!("Something went wrong"),
+            }
+
+            if word.contains(&guess) {
+                word_mask = update_word_mask(&word, &word_mask, &guess);
+            } else {
+                mistakes_counter += 1;
+            }
         }
     }
 }
