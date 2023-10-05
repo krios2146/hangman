@@ -6,6 +6,7 @@ use rand::Rng;
 
 fn main() {
     const MAX_MISTAKES: i32 = 6;
+    let control_flow_nums = vec![0, 1];
 
     let word = choose_word_for_game();
     let word_size = word.chars().count();
@@ -28,7 +29,7 @@ fn main() {
             break;
         }
 
-        let guess = get_user_guess();
+        let guess = get_user_guess(&control_flow_nums);
 
         if word.contains(&guess) {
             word_mask = update_word_mask(&word, &word_mask, &guess);
@@ -107,19 +108,27 @@ fn print_hangman(mistakes: i32) {
     println!("( ﾉ ﾟｰﾟ)ﾉ  {} ＼(ﾟｰﾟ＼))", padding);
 }
 
-fn get_user_guess() -> String {
+fn get_user_guess(allowed_nums: &Vec<i32>) -> String {
     loop {
         let mut input = String::new();
 
         match io::stdin().read_line(&mut input) {
             Ok(_) => {
-                let trimmed_input = input.trim_end();
+                let input = input.trim_end();
 
-                if trimmed_input.len() == 1 {
-                    return trimmed_input.to_string();
-                } else {
-                    println!("Please enter exactly one latin letter");
+                if input.len() != 1 {
+                    println!("Please enter exactly one latin letter or control number");
+                    continue;
                 }
+
+                if let Ok(number) = input.parse::<i32>() {
+                    if !allowed_nums.contains(&number) {
+                        println!("Please enter valid control number");
+                        continue;
+                    }
+                }
+
+                return input.to_string();
             }
             Err(error) => {
                 eprintln!("Failed to read input: {error}")
