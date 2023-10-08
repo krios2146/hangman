@@ -1,6 +1,6 @@
 use std::fs::File;
 use std::io;
-use std::io::BufRead;
+use std::io::{BufRead, Write};
 use std::process::exit;
 
 use rand::Rng;
@@ -139,6 +139,9 @@ fn print_hangman(mistakes: i32) {
 
 fn get_user_guess(allowed_nums: &Vec<i32>, used_letters: &mut Vec<String>) -> String {
     loop {
+        print!("Your guess: ");
+        io::stdout().flush().expect("Failed to flush stdout"); // To avoid buffering the print! statement
+
         let mut input = String::new();
 
         match io::stdin().read_line(&mut input) {
