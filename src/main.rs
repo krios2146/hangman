@@ -50,8 +50,11 @@ fn main() {
                     println!("Restarting the game");
                     break;
                 }
-                Ok(_) => println!("Something went wrong"),
-                Err(_) => println!("Something went wrong"),
+                Ok(_) => {
+                    println!("Not allowed control flow number");
+                    continue;
+                }
+                Err(_) => {}
             }
 
             if word.contains(&guess) {
