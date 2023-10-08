@@ -23,10 +23,12 @@ fn main() {
         println!();
 
         let mut mistakes_counter = 0;
+        let mut used_letters: Vec<String> = Vec::new();
         loop {
             print_hangman(mistakes_counter);
-            println!("Word:     {word_mask} ({word_size} letters)");
-            println!("Mistakes: {mistakes_counter}/{MAX_MISTAKES}");
+            println!("Word:             {word_mask} ({word_size} letters)");
+            println!("Mistakes:         {mistakes_counter}/{MAX_MISTAKES}");
+            println!("Previous guesses: {used_letters:?}");
             println!("{EXIT_NUMBER} - Exit, {RESTART_NUMBER} - Restart");
 
             if mistakes_counter == MAX_MISTAKES {
@@ -39,7 +41,7 @@ fn main() {
                 break;
             }
 
-            let guess = get_user_guess(&control_flow_nums);
+            let guess = get_user_guess(&control_flow_nums, &mut used_letters);
 
             match guess.parse::<i32>() {
                 Ok(EXIT_NUMBER) => {
@@ -135,7 +137,7 @@ fn print_hangman(mistakes: i32) {
     println!("( ﾉ ﾟｰﾟ)ﾉ  {} ＼(ﾟｰﾟ＼))", padding);
 }
 
-fn get_user_guess(allowed_nums: &Vec<i32>) -> String {
+fn get_user_guess(allowed_nums: &Vec<i32>, used_letters: &mut Vec<String>) -> String {
     loop {
         let mut input = String::new();
 
@@ -148,6 +150,11 @@ fn get_user_guess(allowed_nums: &Vec<i32>) -> String {
                     continue;
                 }
 
+                if used_letters.contains(&input.to_string()) {
+                    println!("You're already used this letter, try another one");
+                    continue;
+                };
+
                 if let Ok(number) = input.parse::<i32>() {
                     if !allowed_nums.contains(&number) {
                         println!("Please enter valid control number");
@@ -155,6 +162,7 @@ fn get_user_guess(allowed_nums: &Vec<i32>) -> String {
                     }
                 }
 
+                used_letters.push(input.to_string());
                 return input.to_string();
             }
             Err(error) => {
